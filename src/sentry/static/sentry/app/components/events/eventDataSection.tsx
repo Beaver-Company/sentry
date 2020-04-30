@@ -74,9 +74,9 @@ class EventDataSection extends React.Component<Props> {
     const titleNode = wrapTitle ? <h3>{title}</h3> : title;
 
     return (
-      <StyledDataSection className={className || ''} isCentered={isCentered}>
+      <DataSection className={className || ''}>
         {title && (
-          <SectionHeader id={type}>
+          <SectionHeader id={type} isCentered={isCentered}>
             <Permalink href={'#' + type} className="permalink">
               <em className="icon-anchor" />
             </Permalink>
@@ -103,7 +103,7 @@ class EventDataSection extends React.Component<Props> {
           </SectionHeader>
         )}
         <SectionContents>{children}</SectionContents>
-      </StyledDataSection>
+      </DataSection>
     );
   }
 }
@@ -119,7 +119,7 @@ const Permalink = styled('a')`
   padding: ${space(0.25)} 5px;
 `;
 
-const SectionHeader = styled('div')`
+const SectionHeader = styled('div')<{isCentered?: boolean}>`
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -166,6 +166,15 @@ const SectionHeader = styled('div')`
       display: inline-block;
     }
   }
+
+  ${p =>
+    p.isCentered &&
+    css`
+      align-items: center;
+      @media (max-width: ${p.theme.breakpoints[0]}) {
+        display: block;
+      }
+    `}
 `;
 
 const SectionContents = styled('div')`
@@ -174,19 +183,6 @@ const SectionContents = styled('div')`
 
 const ActionContainer = styled('div')`
   flex-shrink: 0;
-`;
-
-const StyledDataSection = styled(DataSection)<{isCentered?: boolean}>`
-  ${p =>
-    p.isCentered &&
-    css`
-      ${SectionHeader}, ${ActionContainer} {
-        align-items: center;
-        @media (max-width: ${p.theme.breakpoints[0]}) {
-          display: block;
-        }
-      }
-    `}
 `;
 
 export default EventDataSection;
